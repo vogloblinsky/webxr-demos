@@ -1,0 +1,24 @@
+{
+  "name": "webxr-demos",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "serve": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vogloblinsky/webxr-demos.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vogloblinsky/webxr-demos/issues"
+  },
+  "homepage": "https://github.com/vogloblinsky/webxr-demos#readme",
+  "devDependencies": {
+    "express": "^4.16.2",
+    "fs-extra": "^6.0.1",
+    "http-server": "^0.11.1",
+    "spdy": "^3.4.7"
+  }
+}
