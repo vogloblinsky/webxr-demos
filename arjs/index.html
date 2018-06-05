@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html class="no-js" lang="">
 
-<head></head>
-
-<body style="margin : 0px; overflow: hidden;">
-    <a-scene embedded arjs='sourceType: webcam;' vr-mode-ui="enabled: false">
-        <a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
-        <a-marker-camera preset='hiro'></a-marker-camera>
-    </a-scene>
-
+<head>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
-    <script>
-        // Aframe ready event
-        document.querySelector('a-scene').addEventListener('loaded', function () {
-            document.getElementById('arjsDebugUIContainer').style.display = 'none';
-        });
-    </script>
+</head>
+
+<body style="margin : 0px; overflow: hidden;">
+    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false;' vr-mode-ui="enabled: false">
+        <a-assets>
+            <a-asset-item id="chair" src="../3d-models/sketchfab-vitra_eames_plastic_chair/scene.gltf"></a-asset-item>
+        </a-assets>
+        <a-gltf-model src="#chair" position="0 0 0" scale="0.02 0.02 0.02"></a-gltf-model>
+
+        <a-marker-camera preset='hiro'></a-marker-camera>
+    </a-scene>
 </body>
 
 </html>
