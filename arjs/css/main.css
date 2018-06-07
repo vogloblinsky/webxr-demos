@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer ion-icon {
+    font-size: 40px;
+    color: white;
+}
+
+.modal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    transition-duration: 500ms;
+    transition-property: bottom;
+    transition-timing-function: cubic-bezier(0.785, 0.135, 0.150, 0.860);
+}
+.modal.hide {
+    bottom: -100%;
+}
+.modal.show {
+    bottom: 0;
+}
+
+.modal .container {
+    position: absolute;
+    background: white;
+    width: 100%;
+    height: calc(100% - 60px);
+    left: 0;
+    bottom: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow-y: scroll;
+}
+
+.modal .container h3 {
+    margin: 25px 15px;
+}
+
+.modal .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.product {
+    width: 150px;
+    display: inline-block;
+    border: 1px solid #d7d7d7;
+    border-radius: 10px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+.product img {
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.product .name {
+    width: 100%;
+    font-weight: bold;
+    display: block;
+    padding-top: 10px;
+}
+
+.product .name, .product .price {
+    padding-left: 10px;
+}

@@ -1,0 +1,247 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 28785,
+      "max": [
+        33.26617431640625,
+        31.503145217895508,
+        81.288780212402344
+      ],
+      "min": [
+        -13.167752265930176,
+        -24.736639022827148,
+        -0.66270846128463745
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 345420,
+      "componentType": 5126,
+      "count": 28785,
+      "max": [
+        0.98076939582824707,
+        0.99999845027923584,
+        0.99997538328170776
+      ],
+      "min": [
+        -0.98076909780502319,
+        -0.99999845027923584,
+        -0.99997550249099731
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 28785,
+      "max": [
+        0.98894554376602173,
+        0.99997550249099731,
+        0.59226304292678833,
+        1
+      ],
+      "min": [
+        -0.98878812789916992,
+        -0.95661002397537231,
+        -0.9999997615814209,
+        -1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 163206,
+      "max": [
+        28784
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Geof (https://sketchfab.com/gbb2116)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/models/74cd3a7c7df84091b226efd30766c157",
+      "title": "Panton Chair"
+    },
+    "generator": "Sketchfab-3.18.6",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 652824,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 690840,
+      "byteOffset": 652824,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 460560,
+      "byteOffset": 1343664,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 1804224,
+      "uri": "scene.bin"
+    }
+  ],
+  "extensionsRequired": [
+    "KHR_materials_pbrSpecularGlossiness"
+  ],
+  "extensionsUsed": [
+    "KHR_materials_pbrSpecularGlossiness"
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_pbrSpecularGlossiness": {
+          "diffuseFactor": [
+            1,
+            0,
+            0,
+            1
+          ],
+          "glossinessFactor": 0.83708079270000002,
+          "specularFactor": [
+            0.020007621999999999,
+            0.020007621999999999,
+            0.020007621999999999
+          ]
+        }
+      },
+      "name": "Default_VRay_Material"
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_1_Default_VRay_Material_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        -43.696300506591797,
+        -36.929862976074219,
+        1
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "ced04fef3fd74ad090e9dc9c09b14c20.fbx"
+    },
+    {
+      "children": [
+        4
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5
+      ],
+      "name": "Layer 01"
+    },
+    {
+      "children": [
+        6
+      ],
+      "name": "Object_1"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_1_Default_VRay_Material_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
+

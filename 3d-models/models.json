@@ -1,0 +1,59 @@
+[
+    {
+        "name": "Blue chair",
+        "price": 79,
+        "id": "chair",
+        "author": "Francesco Coldesina",
+        "scale": 0.0015
+    },
+    {
+        "name": "Wood chair",
+        "price": 89,
+        "id": "modern_chair",
+        "author": "Francesco Coldesina",
+        "scale": 0.03
+    },
+    {
+        "name": "ring chair",
+        "price": 89,
+        "id": "ring_chair",
+        "author": "nhreisdorfer",
+        "scale": 0.015
+    },
+    {
+        "name": "rounded chair",
+        "price": 89,
+        "id": "rounded_chair",
+        "author": "Pascal T. Monette",
+        "scale": 0.4
+    },
+    {
+        "name": "Vitra Eames chair",
+        "price": 89,
+        "id": "vitra_eames_plastic_chair",
+        "author": "Furnny",
+        "scale": 0.01
+    },
+    {
+        "name": "Lounge chair",
+        "price": 89,
+        "id": "lounge_chair",
+        "author": "Seth Whittemore",
+        "scale": 0.5
+    },
+    {
+        "name": "Panton chair",
+        "price": 89,
+        "id": "panton_chair",
+        "author": "Geof",
+        "scale": 0.01
+    },
+    {
+        "name": "Fox",
+        "price": 89,
+        "id": "fox",
+        "author": "tomkranis",
+        "scale": 0.01,
+        "animated": true
+    }
+]
