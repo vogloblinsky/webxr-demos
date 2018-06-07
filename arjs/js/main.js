@@ -32,7 +32,6 @@ let loadModelsData = () => {
         .then(response => response.json())
         .then(data => {
             MODELS = data;
-            console.log(MODELS);
             renderModelsPreview();
         });
 }
@@ -58,6 +57,7 @@ let renderModelsPreview = () => {
         productsContainer.appendChild(productPreview);
 
         productPreview.addEventListener('click', (e) => {
+            clearScene();
             addElementOnScene(e);
             hideModal();
         })
@@ -74,6 +74,17 @@ let showModal = () => {
     document.querySelector('.modal').classList.add('show');
 }
 
+let clearScene = () => {
+    let agltfmodel = aframeScene.querySelector('a-gltf-model');
+    if (agltfmodel) {
+        aframeScene.removeChild(agltfmodel);
+    }
+    let aassetsmodel = aframeScene.querySelector('a-assets');
+    if (aassetsmodel) {
+        aframeScene.removeChild(aassetsmodel);
+    }
+}
+
 let addElementOnScene = (e) => {
     let modelIndex = e.currentTarget.getAttribute('data-index');
     selectedModel = MODELS[modelIndex];
@@ -85,7 +96,6 @@ let addElementOnScene = (e) => {
     assets.appendChild(asset);
 
     assets.addEventListener('loaded', () => {
-        console.log('loaded');
         let model = document.createElement('a-gltf-model');
         model.setAttribute('src', `#${selectedModel.id}`);
         model.setAttribute('position', '0 0 0');
