@@ -74,7 +74,7 @@ function onAddedOrUpdatedPlanes(evt) {
     // plane.setAttribute('scale', evt.detail.scale);
 
     // If we have vertices, use polygon geometry
-    /*if (anchor.vertices) {
+    if (anchor.vertices) {
       // anchor.vertices works for latest ARKit but not for latest ARCore; Float32Array issue?
       plane.setAttribute('geometry', {
         primitive: 'polygon',
@@ -83,7 +83,7 @@ function onAddedOrUpdatedPlanes(evt) {
     } else {
       plane.setAttribute('geometry', 'primitive:box; width:' + dx +
         '; height:0.001; depth:' + dz);
-    }*/
+    }
 
     // Update the bounding box.
     var bbox = plane.querySelector('.bbox');
