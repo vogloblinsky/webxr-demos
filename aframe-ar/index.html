@@ -30,6 +30,15 @@
 </head>
 
 <body>
+    <!-- This is the thing we stick in the middle of planes we detect. -->
+    <script>
+        AFRAME.registerComponent('thing', {
+            init: function () {
+                this.el.setAttribute('geometry', { primitive: 'box', width: 0.01, depth: 0.01, height: 1 });
+                this.el.setAttribute('position', { y: 0.5 });
+            }
+        });            
+    </script>
 
     <script>
         /////////////////////////////////////////////////////////////////////////////////////////
@@ -172,7 +181,7 @@
                     marker.setAttribute('color', 'orange');
                     marker.setAttribute('position', {
                         x: cursor.intersection.point.x,
-                        y: cursor.intersection.point.y,
+                        y: cursor.intersection.point.y + 0.25,
                         z: cursor.intersection.point.z
                     });
                     sc.appendChild(marker);
