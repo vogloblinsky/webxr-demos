@@ -104,7 +104,9 @@
     <script>
         var sc = document.querySelector('a-scene');
         var ball = document.querySelector('#ball');
-        function showHUD(msg) { sc.querySelector('#hud').setAttribute('value', msg); }
+        function showHUD(msg) { 
+            //sc.querySelector('#hud').setAttribute('value', msg);
+        }
 
         function addARRaycasterListeners() {
             var raycaster = sc.querySelector('[ar-raycaster]');
