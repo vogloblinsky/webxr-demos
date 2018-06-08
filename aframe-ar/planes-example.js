@@ -47,7 +47,7 @@ function onAddedOrUpdatedPlanes(evt) {
         // NOTE: for A-Frame 0.8.x, using zero height results in the default value of 1 unit                               
         '<a-box class="bbox" position="0 0 0" height="0.001" material="wireframe:true;opacity:0.25;color:' + colorToUse + '"></a-box>' +
         // Add a thing to mark the center of the plane.
-        '<a-entity thing></a-entity>');
+        '<a-entity thing visible="false"></a-entity>');
 
       // Create the temp objects we will use when updating.
       plane.tempPosition = new THREE.Vector3();
