@@ -30,15 +30,6 @@
 </head>
 
 <body>
-    <!-- This is the thing we stick in the middle of planes we detect. -->
-    <script>
-        AFRAME.registerComponent('thing', {
-            init: function () {
-                this.el.setAttribute('geometry', { primitive: 'box', width: 0.01, depth: 0.01, height: 1 });
-                this.el.setAttribute('position', { y: 0.5 });
-            }
-        });            
-    </script>
 
     <script>
         /////////////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +88,7 @@
             <a-entity position="0 0 -0.1" scale="0.001 0.001 0.001" geometry="primitive: ring; radiusInner: 0.8; radiusOuter: 1" material="color: yellow; shader: flat; transparent:true"></a-entity>
 
             <!-- Heads-up text display. -->
-            <a-text id="hud" scale="0.01 0.01 0.01" position="0 -0.025 -0.1" color="yellow" align="center" value="Hi there"></a-text>
+            <a-text id="hud" scale="0.01 0.01 0.01" position="0 -0.025 -0.1" color="yellow" align="center" value=""></a-text>
         </a-camera>
     </a-scene>
 
@@ -181,7 +172,7 @@
                     marker.setAttribute('color', 'orange');
                     marker.setAttribute('position', {
                         x: cursor.intersection.point.x,
-                        y: cursor.intersection.point.y + 0.5,
+                        y: cursor.intersection.point.y,
                         z: cursor.intersection.point.z
                     });
                     sc.appendChild(marker);
