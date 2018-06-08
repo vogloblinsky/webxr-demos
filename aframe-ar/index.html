@@ -173,9 +173,9 @@
                 var cursor = sc.querySelector('[ar-raycaster]').components.cursor;
                 if (cursor.intersection) {
                     var marker = document.createElement('a-box');
-                    marker.setAttribute('width', 0.01);
-                    marker.setAttribute('depth', 0.01);
-                    marker.setAttribute('height', 1);
+                    marker.setAttribute('width', 0.05);
+                    marker.setAttribute('depth', 0.05);
+                    marker.setAttribute('height', 0.05);
                     marker.setAttribute('color', 'orange');
                     marker.setAttribute('position', {
                         x: cursor.intersection.point.x,
