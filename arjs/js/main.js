@@ -44,7 +44,7 @@ let renderModelsPreview = () => {
         productPreview.classList.add('product');
         productPreview.setAttribute('data-index', index);
         let productPic = document.createElement('img');
-        productPic.setAttribute('src', `../3d-models/sketchfab-${model.id}/pic.png`);
+        productPic.setAttribute('src', `../3d-models/${model.id}/pic.png`);
         productPreview.appendChild(productPic);
         let productName = document.createElement('span');
         productName.classList.add('name');
@@ -92,7 +92,7 @@ let addElementOnScene = (e) => {
     let assets = document.createElement('a-assets');
     let asset = document.createElement('a-asset-item');
     asset.setAttribute('id', selectedModel.id);
-    asset.setAttribute('src', `../3d-models/sketchfab-${selectedModel.id}/scene.gltf`);
+    asset.setAttribute('src', `../3d-models/${selectedModel.id}/scene.gltf`);
     assets.appendChild(asset);
 
     assets.addEventListener('loaded', () => {

@@ -53,7 +53,15 @@
         "price": 0,
         "id": "fox",
         "author": "tomkranis",
-        "scale": 0.025,
+        "scale": 0.02,
+        "animated": true
+    },
+    {
+        "name": "Dancing stormtrooper",
+        "price": 0,
+        "id": "stormtrooper",
+        "author": "StrykerDoesAnimation",
+        "scale": 0.75,
         "animated": true
     }
 ]
