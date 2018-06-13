@@ -63,7 +63,8 @@
     </div>
 
     <script src="../common/js/libs/ionicons.js"></script>
-    <script src="./js/main.js"></script>
+    <script src="../common/js/main.js"></script>
+    <script src="./js/app.js"></script>
 
     <script>
         var sc = document.querySelector('a-scene');
@@ -86,13 +87,13 @@
                     model.setAttribute('src', `#${selectedModel.id}`);
                     model.setAttribute('position', {
                         x: cursor.intersection.point.x,
-                        y: cursor.intersection.point.y - 0.25,
+                        y: cursor.intersection.point.y - 1,
                         z: cursor.intersection.point.z
                     });
                     if (typeof selectedModel.animated !== 'undefined') {
                         model.setAttribute('animation-mixer', null);
                     }
-                    model.setAttribute('scale', `${selectedModel.scale} ${selectedModel.scale} ${selectedModel.scale}`);
+                    model.setAttribute('scale', `${selectedModel.scaleAframear} ${selectedModel.scaleAframear} ${selectedModel.scaleAframear}`);
                     sc.appendChild(model);
                     hidePlanes = true;
                 }

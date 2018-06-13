@@ -1,5 +1,6 @@
 let aframeScene;
 let selectedModel;
+let hidePlanes = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     aframeScene = document.querySelector('a-scene');
@@ -8,8 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
         clearScene();
         addElementOnScene();
     });
-});
 
+    document.querySelector('body').addEventListener('modalOpened', () => {
+        hidePlanes = true;
+    });
+});
 
 let clearScene = () => {
     let agltfmodel = aframeScene.querySelector('a-gltf-model');
@@ -28,17 +32,5 @@ let addElementOnScene = (data) => {
     asset.setAttribute('id', selectedModel.id);
     asset.setAttribute('src', `../3d-models/${selectedModel.id}/scene.gltf`);
     assets.appendChild(asset);
-
-    assets.addEventListener('loaded', () => {
-        let model = document.createElement('a-gltf-model');
-        model.setAttribute('src', `#${selectedModel.id}`);
-        model.setAttribute('position', '0 0 0');
-        if (typeof selectedModel.animated !== 'undefined') {
-            model.setAttribute('animation-mixer', null);
-        }
-        model.setAttribute('scale', `${selectedModel.scaleARjs} ${selectedModel.scaleARjs} ${selectedModel.scaleARjs}`);
-        aframeScene.prepend(model);
-    });
-
     aframeScene.prepend(assets);
 }

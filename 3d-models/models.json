@@ -4,7 +4,8 @@
         "price": 29,
         "id": "chair",
         "author": "Francesco Coldesina",
-        "scale": 0.0015,
+        "scaleARjs": 0.0015,
+        "scaleAframear": 0.0005,
         "sketchfabid": "b5ecdb6253a7454c916954bef6c10251"
     },
     {
@@ -12,7 +13,8 @@
         "price": 59,
         "id": "modern_chair",
         "author": "Francesco Coldesina",
-        "scale": 0.03,
+        "scaleARjs": 0.03,
+        "scaleAframear": 0.03,
         "sketchfabid": "4f3186bc87484158910a961341e875cb"
     },
     {
@@ -20,7 +22,8 @@
         "price": 89,
         "id": "ring_chair",
         "author": "nhreisdorfer",
-        "scale": 0.015,
+        "scaleARjs": 0.015,
+        "scaleAframear": 0.010,
         "sketchfabid": "5381374ec4ce4be4afd172f387aa956d"
     },
     {
@@ -28,7 +31,8 @@
         "price": 99,
         "id": "rounded_chair",
         "author": "Pascal T. Monette",
-        "scale": 0.6,
+        "scaleARjs": 0.6,
+        "scaleAframear": 0.4,
         "sketchfabid": "6a9ed9947c0e499d938563de4920fbf0"
     },
     {
@@ -36,7 +40,8 @@
         "price": 119,
         "id": "vitra_eames_plastic_chair",
         "author": "Furnny",
-        "scale": 0.025,
+        "scaleARjs": 0.025,
+        "scaleAframear": 0.015,
         "sketchfabid": "0a45955e2328459d95f403cb00c08b3a"
     },
     {
@@ -44,7 +49,8 @@
         "price": 129,
         "id": "lounge_chair",
         "author": "Seth Whittemore",
-        "scale": 0.6,
+        "scaleARjs": 0.6,
+        "scaleAframear": 0.4,
         "sketchfabid": "cbeeb07901ce481e9e7bbe18bdd8b026"
     },
     {
@@ -52,7 +58,8 @@
         "price": 79,
         "id": "panton_chair",
         "author": "Geof",
-        "scale": 0.01,
+        "scaleARjs": 0.01,
+        "scaleAframear": 0.01,
         "sketchfabid": "74cd3a7c7df84091b226efd30766c157"
     },
     {
@@ -60,7 +67,8 @@
         "price": 0,
         "id": "fox",
         "author": "tomkranis",
-        "scale": 0.02,
+        "scaleARjs": 0.02,
+        "scaleAframear": 0.02,
         "animated": true,
         "sketchfabid": "371dea88d7e04a76af5763f2a36866bc"
     },
@@ -69,7 +77,8 @@
         "price": 0,
         "id": "stormtrooper",
         "author": "StrykerDoesAnimation",
-        "scale": 0.75,
+        "scaleARjs": 0.75,
+        "scaleAframear": 0.3,
         "animated": true,
         "sketchfabid": "12bd08d66fe04a84be446e583d6663ac"
     }

@@ -60,6 +60,8 @@ let renderModelsPreview = () => {
             
             let modelIndex = e.currentTarget.getAttribute('data-index');
             selectedModel = MODELS[modelIndex];
+
+            updateCopyright(selectedModel);
             
             var event = new CustomEvent(
                 'modelSelected', 
@@ -86,6 +88,14 @@ let hideModal = () => {
 let showModal = () => {
     document.querySelector('.modal').classList.remove('hide');
     document.querySelector('.modal').classList.add('show');
+    var event = new CustomEvent(
+        'modalOpened', 
+        {
+            bubbles: true,
+            cancelable: true
+        }
+    );
+    document.querySelector('body').dispatchEvent(event);
 }
 
 let updateCopyright = (model) => {
