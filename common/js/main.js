@@ -2,9 +2,7 @@ let addButton;
 let copyright;
 let modal;
 let modalBackground;
-let aframeScene;
 let MODELS;
-let selectedModel;
 
 document.addEventListener('DOMContentLoaded', function() {
     registerUI();
@@ -16,7 +14,6 @@ let registerUI = () => {
     addButton = document.querySelector('footer .add-button');
     modal = document.querySelector('.modal');
     modalBackground = document.querySelector('.modal .background');
-    aframeScene = document.querySelector('a-scene');
     copyright = document.querySelector('#info');
 }
 
@@ -60,7 +57,22 @@ let renderModelsPreview = () => {
 
         productPreview.addEventListener('click', (e) => {
             clearScene();
-            addElementOnScene(e);
+            
+            let modelIndex = e.currentTarget.getAttribute('data-index');
+            selectedModel = MODELS[modelIndex];
+            
+            var event = new CustomEvent(
+                'modelSelected', 
+                {
+                    detail: {
+                        model: selectedModel
+                    },
+                    bubbles: true,
+                    cancelable: true
+                }
+            );
+            document.querySelector('body').dispatchEvent(event);
+            
             hideModal();
         })
     });
@@ -81,40 +93,4 @@ let updateCopyright = (model) => {
     let links = copyright.querySelectorAll('a');
     links[0].setAttribute('href', `https://sketchfab.com/models/${model.sketchfabid}`);
     links[1].innerHTML = model.author;
-}
-
-let clearScene = () => {
-    let agltfmodel = aframeScene.querySelector('a-gltf-model');
-    if (agltfmodel) {
-        aframeScene.removeChild(agltfmodel);
-    }
-    let aassetsmodel = aframeScene.querySelector('a-assets');
-    if (aassetsmodel) {
-        aframeScene.removeChild(aassetsmodel);
-    }
-}
-
-let addElementOnScene = (e) => {
-    let modelIndex = e.currentTarget.getAttribute('data-index');
-    selectedModel = MODELS[modelIndex];
-
-    let assets = document.createElement('a-assets');
-    let asset = document.createElement('a-asset-item');
-    asset.setAttribute('id', selectedModel.id);
-    asset.setAttribute('src', `../3d-models/${selectedModel.id}/scene.gltf`);
-    assets.appendChild(asset);
-
-    assets.addEventListener('loaded', () => {
-        let model = document.createElement('a-gltf-model');
-        model.setAttribute('src', `#${selectedModel.id}`);
-        model.setAttribute('position', '0 0 0');
-        if (typeof selectedModel.animated !== 'undefined') {
-            model.setAttribute('animation-mixer', null);
-        }
-        model.setAttribute('scale', `${selectedModel.scale} ${selectedModel.scale} ${selectedModel.scale}`);
-        aframeScene.prepend(model);
-        updateCopyright(selectedModel);
-    });
-
-    aframeScene.prepend(assets);
 }
