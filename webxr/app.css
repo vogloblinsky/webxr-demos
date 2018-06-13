@@ -90,7 +90,7 @@ body.ar #info {
 }
 
 #stabilization {
-  background-image: url(../assets/stabilization.gif);
+  background-image: url(../common/stabilization.gif);
   background-size: contain;
   background-repeat: no-repeat;
   width: 400px;

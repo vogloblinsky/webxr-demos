@@ -1,13 +1,30 @@
+/*
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the 'License');
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an 'AS IS' BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+const clock = new THREE.Clock();
+let mixer = null;
 /**
  * Container class to manage connecting to the WebXR Device API
  * and handle rendering on every frame.
  */
 class App {
   constructor() {
-    console.log('App cstr');
-    var polyfill = new WebXRPolyfill();
     this.onXRFrame = this.onXRFrame.bind(this);
     this.onEnterAR = this.onEnterAR.bind(this);
+    this.onClick = this.onClick.bind(this);
+
     this.init();
   }
 
@@ -15,14 +32,10 @@ class App {
    * Fetches the XRDevice, if available.
    */
   async init() {
-    console.log('init');
-    
     // The entry point of the WebXR Device API is on `navigator.xr`.
     // We also want to ensure that `XRSession` has `requestHitTest`,
     // indicating that the #webxr-hit-test flag is enabled.
-    console.log(navigator.xr, XRSession.prototype);
     if (navigator.xr && XRSession.prototype.requestHitTest) {
-      console.log('if');
       try {
         this.device = await navigator.xr.requestDevice();
       } catch (e) {
@@ -34,7 +47,6 @@ class App {
         return;
       }
     } else {
-      console.log('else');
       // If `navigator.xr` or `XRSession.prototype.requestHitTest`
       // does not exist, we must display a message indicating there
       // are no valid devices.
@@ -115,10 +127,22 @@ class App {
     this.session.baseLayer = new XRWebGLLayer(this.session, this.gl);
 
     // A THREE.Scene contains the scene graph for all objects in the
-    // render scene.
-    // Call our utility which gives us a THREE.Scene populated with
-    // cubes everywhere.
-    this.scene = DemoUtils.createCubeScene();
+    // render scene. Call our utility which gives us a THREE.Scene
+    // with a few lights and meshes already in the scene.
+    this.scene = DemoUtils.createLitScene();
+
+    // Use the DemoUtils.loadModel to load our OBJ and MTL. The promise
+    // resolves to a THREE.Group containing our mesh information.
+    // Dont await this promise, as we want to start the rendering
+    // process before this finishes.
+    DemoUtils.loadGltfModel('../3d-models/stormtrooper/scene.gltf').then(model => {
+      this.model = model;
+
+      // Every model is different -- you may have to adjust the scale
+      // of a model depending on the use.
+      //this.model.scale.set(0.01, 0.01, 0.01);
+      this.model.scale.set(0.35, 0.35, 0.35);
+    });
 
     // We'll update the camera matrices directly from API, so
     // disable matrix auto updates so three.js doesn't attempt
@@ -126,8 +150,16 @@ class App {
     this.camera = new THREE.PerspectiveCamera();
     this.camera.matrixAutoUpdate = false;
 
+    // Add a Reticle object, which will help us find surfaces by drawing
+    // a ring shape onto found surfaces. See source code
+    // of Reticle in shared/utils.js for more details.
+    this.reticle = new Reticle(this.session, this.camera);
+    this.scene.add(this.reticle);
+
     this.frameOfRef = await this.session.requestFrameOfReference('eyeLevel');
     this.session.requestAnimationFrame(this.onXRFrame);
+
+    window.addEventListener('click', this.onClick);
   }
 
   /**
@@ -138,11 +170,23 @@ class App {
     let session = frame.session;
     let pose = frame.getDevicePose(this.frameOfRef);
 
+    // Update the reticle's position
+    this.reticle.update(this.frameOfRef);
+
+    // If the reticle has found a hit (is visible) and we have
+    // not yet marked our app as stabilized, do so
+    if (this.reticle.visible && !this.stabilized) {
+      this.stabilized = true;
+      document.body.classList.add('stabilized');
+    }
+
     // Queue up the next frame
     session.requestAnimationFrame(this.onXRFrame);
 
     // Bind the framebuffer to our baseLayer's framebuffer
     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.session.baseLayer.framebuffer);
+
+    if (mixer) mixer.update(clock.getDelta());
 
     if (pose) {
       // Our XRFrame has an array of views. In the VR case, we'll have
@@ -164,6 +208,71 @@ class App {
         // Render our scene with our THREE.WebGLRenderer
         this.renderer.render(this.scene, this.camera);
       }
+    }
+  }
+
+  /**
+   * This method is called when tapping on the page once an XRSession
+   * has started. We're going to be firing a ray from the center of
+   * the screen, and if a hit is found, use it to place our object
+   * at the point of collision.
+   */
+  async onClick(e) {
+    // If our model is not yet loaded, abort
+    if (!this.model) {
+      return;
+    }
+
+    // We're going to be firing a ray from the center of the screen.
+    // The requestHitTest function takes an x and y coordinate in
+    // Normalized Device Coordinates, where the upper left is (-1, 1)
+    // and the bottom right is (1, -1). This makes (0, 0) our center.
+    const x = 0;
+    const y = 0;
+
+    // Create a THREE.Raycaster if one doesn't already exist,
+    // and use it to generate an origin and direction from
+    // our camera (device) using the tap coordinates.
+    // Learn more about THREE.Raycaster:
+    // https://threejs.org/docs/#api/core/Raycaster
+    this.raycaster = this.raycaster || new THREE.Raycaster();
+    this.raycaster.setFromCamera({ x, y }, this.camera);
+    const ray = this.raycaster.ray;
+
+    // Fire the hit test to see if our ray collides with a real
+    // surface. Note that we must turn our THREE.Vector3 origin and
+    // direction into an array of x, y, and z values. The proposal
+    // for `XRSession.prototype.requestHitTest` can be found here:
+    // https://github.com/immersive-web/hit-test
+    const origin = new Float32Array(ray.origin.toArray());
+    const direction = new Float32Array(ray.direction.toArray());
+    const hits = await this.session.requestHitTest(origin,
+                                                   direction,
+                                                   this.frameOfRef);
+
+    // If we found at least one hit...
+    if (hits.length) {
+      // We can have multiple collisions per hit test. Let's just take the
+      // first hit, the nearest, for now.
+      const hit = hits[0];
+
+      // Our XRHitResult object has one property, `hitMatrix`, a
+      // Float32Array(16) representing a 4x4 Matrix encoding position where
+      // the ray hit an object, and the orientation has a Y-axis that corresponds
+      // with the normal of the object at that location.
+      // Turn this matrix into a THREE.Matrix4().
+      const hitMatrix = new THREE.Matrix4().fromArray(hit.hitMatrix);
+
+      // Now apply the position from the hitMatrix onto our model.
+      this.model.position.setFromMatrixPosition(hitMatrix);
+
+      // Rather than using the rotation encoded by the `modelMatrix`,
+      // rotate the model to face the camera. Use this utility to
+      // rotate the model only on the Y axis.
+      DemoUtils.lookAtOnY(this.model, this.camera);
+
+      // Ensure our model has been added to the scene.
+      this.scene.add(this.model);
     }
   }
 };

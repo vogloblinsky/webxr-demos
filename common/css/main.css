@@ -28,9 +28,11 @@ footer ion-icon {
     transition-property: bottom;
     transition-timing-function: cubic-bezier(0.785, 0.135, 0.150, 0.860);
 }
+
 .modal.hide {
     bottom: -100%;
 }
+
 .modal.show {
     bottom: 0;
 }
@@ -76,11 +78,13 @@ footer ion-icon {
     margin-bottom: 15px;
     padding-bottom: 10px;
 }
+
 .product img {
     width: 100%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
+
 .product .name {
     width: 100%;
     font-weight: bold;
@@ -88,6 +92,54 @@ footer ion-icon {
     padding-top: 10px;
 }
 
-.product .name, .product .price {
+.product .name,
+.product .price {
     padding-left: 10px;
+}
+
+#stabilization {
+    background-image: url(../stabilization.gif);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0);
+    z-index: 10;
+    display: none;
+}
+
+body.ar #stabilization {
+    display: block;
+}
+
+body.ar.stabilized #stabilization {
+    display: none;
+}
+
+#info {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0);
+    margin: 10px 0;
+    z-index: 10;
+    display: block;
+    line-height: 2em;
+    text-align: center;
+    display: none;
+    width: 100%;
+}
+
+#info * {
+    color: #fff;
+}
+
+#info span {
+    background-color: rgba(40, 40, 40, 0.4);
+    padding: 0.4em 0.6em;
+    width: 80vw;
+    border-radius: 0.1em;
 }

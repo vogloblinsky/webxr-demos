@@ -1,4 +1,5 @@
 let addButton;
+let copyright;
 let modal;
 let modalBackground;
 let aframeScene;
@@ -16,6 +17,7 @@ let registerUI = () => {
     modal = document.querySelector('.modal');
     modalBackground = document.querySelector('.modal .background');
     aframeScene = document.querySelector('a-scene');
+    copyright = document.querySelector('#info');
 }
 
 let registerListeners = () => {
@@ -74,6 +76,13 @@ let showModal = () => {
     document.querySelector('.modal').classList.add('show');
 }
 
+let updateCopyright = (model) => {
+    copyright.style.display = 'block';
+    let links = copyright.querySelectorAll('a');
+    links[0].setAttribute('href', `https://sketchfab.com/models/${model.sketchfabid}`);
+    links[1].innerHTML = model.author;
+}
+
 let clearScene = () => {
     let agltfmodel = aframeScene.querySelector('a-gltf-model');
     if (agltfmodel) {
@@ -104,6 +113,7 @@ let addElementOnScene = (e) => {
         }
         model.setAttribute('scale', `${selectedModel.scale} ${selectedModel.scale} ${selectedModel.scale}`);
         aframeScene.prepend(model);
+        updateCopyright(selectedModel);
     });
 
     aframeScene.prepend(assets);
