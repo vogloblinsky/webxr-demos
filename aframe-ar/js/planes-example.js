@@ -24,11 +24,6 @@ function onAddedOrUpdatedPlanes(evt) {
     var created = false;
     var colorToUse;
     var plane = sc.querySelector('#plane_' + anchor.identifier);
-    if (plane) {
-      if (hidePlanes) {
-        plane.setAttribute('visible', false);
-      }
-    }
     if (!plane) {
       // Create and append the plane.
       created = true;
@@ -53,6 +48,11 @@ function onAddedOrUpdatedPlanes(evt) {
       plane.tempEuler = new THREE.Euler(0, 0, 0, 'YXZ');
       plane.tempRotation = new THREE.Vector3();
     } else {
+      if (hidePlanes) {
+        plane.setAttribute('visible', 'false');
+      } else {
+        plane.setAttribute('visible', 'true');
+      }
       colorToUse = plane.getAttribute('material', 'color');
     }
 

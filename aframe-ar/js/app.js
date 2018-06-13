@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelector('body').addEventListener('modalOpened', () => {
-        hidePlanes = true;
+        hidePlanes = false;
     });
 });
 
