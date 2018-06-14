@@ -178,7 +178,7 @@ window.DemoUtils = {
 
 							let animation = animations[ i ];
 
-							animation.duration = 3;
+							animation.duration = 4;
 
 							mixer.clipAction( animation ).play();
 

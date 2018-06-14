@@ -39,6 +39,7 @@ class App {
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('body').addEventListener('modelSelected', (e) => {
           selectedModel = e.detail.model;
+          document.querySelector('#info').style.display = 'block';
           this.addElementOnScene();
       });
     });
@@ -54,9 +55,7 @@ class App {
         this.scene.remove(this.model);
       }
       this.model = model;
-      console.log(this.model, selectedModel);
       this.model.scale.set(modelScale, modelScale, modelScale);
-      
     });
   }
 
@@ -251,7 +250,6 @@ class App {
    */
   async onClick(e) {
     // If our model is not yet loaded, abort
-    console.log(this.model);
     
     if (!this.model) {
       return;
@@ -298,13 +296,7 @@ class App {
       const hitMatrix = new THREE.Matrix4().fromArray(hit.hitMatrix);
 
       // Now apply the position from the hitMatrix onto our model.
-      console.log(hitMatrix);
-      
-      if (selectedModel.id === 'vitra_eames_plastic_chair') {
-        this.model.position.setFromMatrixPosition(hitMatrix);
-      } else {
-        this.model.position.setFromMatrixPosition(hitMatrix);
-      }
+      this.model.position.setFromMatrixPosition(hitMatrix);
 
       // Rather than using the rotation encoded by the `modelMatrix`,
       // rotate the model to face the camera. Use this utility to
