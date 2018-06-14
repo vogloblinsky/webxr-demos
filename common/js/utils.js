@@ -87,21 +87,27 @@ class Reticle extends THREE.Object3D {
 
     const origin = new Float32Array(ray.origin.toArray());
     const direction = new Float32Array(ray.direction.toArray());
-    const hits = await this.session.requestHitTest(origin,
-      direction,
-      frameOfRef);
+    
 
-    if (hits.length) {
-      const hit = hits[0];
-      const hitMatrix = new THREE.Matrix4().fromArray(hit.hitMatrix);
-
-      // Now apply the position from the hitMatrix onto our model
-      this.position.setFromMatrixPosition(hitMatrix);
-
-      DemoUtils.lookAtOnY(this, this.camera);
-
-      this.visible = true;
+    try {
+      const hits = await this.session.requestHitTest(origin,
+        direction,
+        frameOfRef);
+      if (hits.length) {
+        const hit = hits[0];
+        const hitMatrix = new THREE.Matrix4().fromArray(hit.hitMatrix);
+  
+        // Now apply the position from the hitMatrix onto our model
+        this.position.setFromMatrixPosition(hitMatrix);
+  
+        DemoUtils.lookAtOnY(this, this.camera);
+  
+        this.visible = true;
+      }
+    } catch(e) {
+      console.log(e)
     }
+    
   }
 }
 

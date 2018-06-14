@@ -11,6 +11,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
 }
 
 footer ion-icon {
@@ -24,6 +25,7 @@ footer ion-icon {
     height: 100%;
     left: 0;
     bottom: 0;
+    z-index: 10;
     transition-duration: 500ms;
     transition-property: bottom;
     transition-timing-function: cubic-bezier(0.785, 0.135, 0.150, 0.860);
@@ -51,6 +53,7 @@ footer ion-icon {
 
 .modal .container h3 {
     margin: 25px 15px;
+    font-size: 18px;
 }
 
 .modal .background {
@@ -73,8 +76,8 @@ footer ion-icon {
     display: inline-block;
     border: 1px solid #d7d7d7;
     border-radius: 10px;
-    margin-left: 8px;
-    margin-right: 7px;
+    margin-left: 4px;
+    margin-right: 4px;
     margin-bottom: 15px;
     padding-bottom: 10px;
 }
