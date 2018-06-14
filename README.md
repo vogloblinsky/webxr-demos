@@ -9,3 +9,5 @@ Here are some simple demos about augmented/mixed reality in a web browser.
 ## Copyright
 
 Some assets are from : https://codelabs.developers.google.com/codelabs/ar-with-webxr
+
+and 3d-models from : https://sketchfab.com
