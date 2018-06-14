@@ -24,6 +24,7 @@
   <title>Augmented reality application with the WebXR Device API</title>
   <link rel="stylesheet" type="text/css" href="./app.css" />
   <link rel="stylesheet" type="text/css" href="../common/css/material.min.css" />
+  <link rel="stylesheet" type="text/css" href="../common/css/main.css">
 </head>
 
 <body>
@@ -59,9 +60,22 @@
       <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY</a>
     </span>
   </div>
+  <div class="modal hide">
+    <div class="background"></div>
+    <div class="container">
+      <h3>COMMENCER</h3>
+      <div class="products"></div>
+    </div>
+  </div>
+  <footer>
+    <div>
+      <ion-icon name="add-circle" class="add-button"></ion-icon>
+    </div>
+  </footer>
   <script src="../common/js/libs/three.js/three.js"></script>
   <script src="../common/js/libs/three.js/GLTFLoader.js"></script>
   <script src="../common/js/utils.js"></script>
+  <script src="../common/js/main.js"></script>
   <script src="app.js"></script>
 </body>
 
