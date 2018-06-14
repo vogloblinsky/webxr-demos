@@ -15,6 +15,15 @@
 
 const clock = new THREE.Clock();
 let mixer = null;
+
+let selectedModel;
+
+const modelScale = 0.3;
+
+let clearScene = () => {
+  window.app.clearScene();
+}
+
 /**
  * Container class to manage connecting to the WebXR Device API
  * and handle rendering on every frame.
@@ -26,6 +35,29 @@ class App {
     this.onClick = this.onClick.bind(this);
 
     this.init();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('body').addEventListener('modelSelected', (e) => {
+          selectedModel = e.detail.model;
+          this.addElementOnScene();
+      });
+    });
+  }
+
+  clearScene () {
+
+  }
+
+  addElementOnScene () {
+    DemoUtils.loadGltfModel(`../3d-models/${selectedModel.id}/scene.gltf`).then(model => {
+      if (this.model) {
+        this.scene.remove(this.model);
+      }
+      this.model = model;
+      console.log(this.model, selectedModel);
+      this.model.scale.set(modelScale, modelScale, modelScale);
+      
+    });
   }
 
   /**
@@ -135,14 +167,14 @@ class App {
     // resolves to a THREE.Group containing our mesh information.
     // Dont await this promise, as we want to start the rendering
     // process before this finishes.
-    DemoUtils.loadGltfModel('../3d-models/stormtrooper/scene.gltf').then(model => {
+    /*DemoUtils.loadGltfModel('../3d-models/stormtrooper/scene.gltf').then(model => {
       this.model = model;
 
       // Every model is different -- you may have to adjust the scale
       // of a model depending on the use.
       //this.model.scale.set(0.01, 0.01, 0.01);
-      this.model.scale.set(0.35, 0.35, 0.35);
-    });
+      this.model.scale.set(modelScale, modelScale, modelScale);
+    });*/
 
     // We'll update the camera matrices directly from API, so
     // disable matrix auto updates so three.js doesn't attempt
@@ -219,6 +251,8 @@ class App {
    */
   async onClick(e) {
     // If our model is not yet loaded, abort
+    console.log(this.model);
+    
     if (!this.model) {
       return;
     }
@@ -264,7 +298,13 @@ class App {
       const hitMatrix = new THREE.Matrix4().fromArray(hit.hitMatrix);
 
       // Now apply the position from the hitMatrix onto our model.
-      this.model.position.setFromMatrixPosition(hitMatrix);
+      console.log(hitMatrix);
+      
+      if (selectedModel.id === 'vitra_eames_plastic_chair') {
+        this.model.position.setFromMatrixPosition(hitMatrix);
+      } else {
+        this.model.position.setFromMatrixPosition(hitMatrix);
+      }
 
       // Rather than using the rotation encoded by the `modelMatrix`,
       // rotate the model to face the camera. Use this utility to
