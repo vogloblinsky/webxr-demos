@@ -90,5 +90,14 @@
         "scaleARjs": 0.01,
         "scaleAframear": 0.01,
         "sketchfabid": "9167000859eb46258f8dc1ac15b55c40"
+    },
+    {
+        "name": "Elephant",
+        "price": 0,
+        "id": "elephant",
+        "author": "onderonvermez",
+        "scaleARjs": 0.01,
+        "scaleAframear": 0.01,
+        "sketchfabid": "93c389f9be37411c9ae4e97ef08bbeee"
     }
 ]
