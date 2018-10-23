@@ -38,18 +38,18 @@ class App {
 
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('body').addEventListener('modelSelected', (e) => {
-          selectedModel = e.detail.model;
-          document.querySelector('#info').style.display = 'block';
-          this.addElementOnScene();
+        selectedModel = e.detail.model;
+        document.querySelector('#info').style.display = 'block';
+        this.addElementOnScene();
       });
     });
   }
 
-  clearScene () {
+  clearScene() {
 
   }
 
-  addElementOnScene () {
+  addElementOnScene() {
     DemoUtils.loadGltfModel(`../3d-models/${selectedModel.id}/scene.gltf`).then(model => {
       if (this.model) {
         this.scene.remove(this.model);
@@ -237,7 +237,7 @@ class App {
         this.camera.matrix.getInverse(viewMatrix);
         this.camera.updateMatrixWorld(true);
 
-        this.renderer.clearDepth();
+        // this.renderer.clearDepth(); // https://github.com/googlecodelabs/ar-with-webxr/issues/8#issuecomment-425428045
 
         // Render our scene with our THREE.WebGLRenderer
         this.renderer.render(this.scene, this.camera);
@@ -253,7 +253,7 @@ class App {
    */
   async onClick(e) {
     // If our model is not yet loaded, abort
-    
+
     if (!this.model) {
       return;
     }
@@ -271,7 +271,10 @@ class App {
     // Learn more about THREE.Raycaster:
     // https://threejs.org/docs/#api/core/Raycaster
     this.raycaster = this.raycaster || new THREE.Raycaster();
-    this.raycaster.setFromCamera({ x, y }, this.camera);
+    this.raycaster.setFromCamera({
+      x,
+      y
+    }, this.camera);
     const ray = this.raycaster.ray;
 
     // Fire the hit test to see if our ray collides with a real
@@ -282,8 +285,8 @@ class App {
     const origin = new Float32Array(ray.origin.toArray());
     const direction = new Float32Array(ray.direction.toArray());
     const hits = await this.session.requestHitTest(origin,
-                                                   direction,
-                                                   this.frameOfRef);
+      direction,
+      this.frameOfRef);
 
     // If we found at least one hit...
     if (hits.length) {
