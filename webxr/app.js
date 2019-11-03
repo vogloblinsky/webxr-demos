@@ -29,12 +29,14 @@ const audioCtx = new AudioContext();
 
 let ModelPlaybackRate = 0;
 
+let listenMicrophone = false;
+
 let data = new Uint8Array(2);
 const analyserNode = new AnalyserNode(audioCtx, {
-    fftSize: 32,
-    maxDecibels: 15,
-    minDecibels: -50,
-    smoothingTimeConstant: 0.9
+    fftSize: 256, // default value : 2048
+    maxDecibels: -10, // default value : -30
+    minDecibels: -90, // default value : -100
+    smoothingTimeConstant: 0.9 // default value : 0.8
 });
 
 function getAnalyserData() {
@@ -188,6 +190,9 @@ class App {
         if (this.renderer) {
             this.renderer.vr.setSession(null);
             this.stabilized = false;
+        }
+        if (audioCtx) {
+            audioCtx.close();
         }
     }
 
