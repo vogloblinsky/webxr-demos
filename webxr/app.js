@@ -14,7 +14,7 @@
  */
 
 const clock = new THREE.Clock();
-let mixer = null;
+let mixer = null; // updated in utils.js
 
 let selectedModel;
 
@@ -23,6 +23,44 @@ const modelScale = 0.25;
 let clearScene = () => {
     window.app.clearScene();
 };
+
+// Create an audio context
+const audioCtx = new AudioContext();
+
+let ModelPlaybackRate = 0;
+
+let data = new Uint8Array(2);
+const analyserNode = new AnalyserNode(audioCtx, {
+    fftSize: 32,
+    maxDecibels: 15,
+    minDecibels: -50,
+    smoothingTimeConstant: 0.9
+});
+
+function getAnalyserData() {
+    requestAnimationFrame(getAnalyserData);
+    analyserNode.getByteFrequencyData(data);
+    console.log(data[0]);
+    let currentLevel = data[0];
+    if (currentLevel > 75) {
+        ModelPlaybackRate = 1;
+    } else if (currentLevel >= 50 && currentLevel <= 75) {
+        ModelPlaybackRate = 0.5;
+    } else if (currentLevel >= 25 && currentLevel < 50) {
+        ModelPlaybackRate = 0.25;
+    } else {
+        ModelPlaybackRate = 0;
+    }
+}
+
+function getStreamData() {
+    return navigator.mediaDevices
+        .getUserMedia({ audio: true, video: false })
+        .then(stream => audioCtx.createMediaStreamSource(stream))
+        .then(source => {
+            source.connect(analyserNode);
+        });
+}
 
 /**
  * Container class to manage connecting to the WebXR Device API
@@ -104,6 +142,11 @@ class App {
         // gesture, we must create an XRPresentationContext on a
         // canvas element.
         const outputCanvas = document.createElement('canvas');
+
+        // sound demo purpose
+        // start audio analysis
+        audioCtx.resume();
+        getStreamData().then(getAnalyserData);
 
         // requestSession with { optionalFeatures: ['dom-overlay-for-handheld-ar'] }, breaks XRInputs
 
@@ -244,7 +287,11 @@ class App {
             return;
         }
 
-        if (mixer) mixer.update(clock.getDelta());
+        if (mixer) {
+            let delta = clock.getDelta();
+            mixer.timeScale = ModelPlaybackRate; // very slow : 0.1; slow : 0.5; normal : 1;
+            mixer.update(delta);
+        }
 
         for (const view of frame.getViewerPose(this.frameOfRef).views) {
             const viewport = session.renderState.baseLayer.getViewport(view);
