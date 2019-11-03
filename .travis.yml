@@ -1,12 +1,19 @@
 language: node_js
 branches:
-  only:
-  - develop
+    only:
+        - develop
 node_js:
-- '10'
+    - '10'
 before_script:
-- chmod +x ./scripts/deploy.sh
-script: "./scripts/deploy.sh"
+    - chmod +x ./scripts/deploy.sh
+script: './scripts/deploy.sh'
+deploy:
+    provider: pages
+    skip_cleanup: true
+    keep_history: false
+    local_dir: tmp
+    on:
+        branch: develop
 env:
-  global:
-    secure: NADCtLWfa5PRL+YB4iK1UDYREpDSgWYrBX8wmd2yzLvIZtxWlsfJ2dNEvLKlqUdialWVl/mqoMdm/ji958vUHpB9hBR1rf1TvNk6l192WFe/nKOZ417rv/rS7lRb9KPPWks9si4SbJGV7OoZOn/l2ezU0isZhfM02Chr+6LnLetjYeZzW/H/lsTeg6ZatZnnUhgu9H92P2yl5ooNH8OwFp1NjK6EgENhurvLNjqnLg0ZbYMv3D+B7R3PJEFVPumV3ZXHi5LRAVNTmNPBhi5ZVH2Q0Gv3OSmAd4eAE2VkCyBx8SAhR3Y+tNZH60e+0s4BiNSvsw2/SjJxCE5wf55fT1HnnGwQ7YTR7U4hFyAcecjq8ADRQcFyQ/hEUX30bK3T8+1AJbmKBV/jfLGda/LWLp/JrfomuMfYyrkTWmK+94PlZq1doW7/eVUkGvKDfJ8w2LpGOS+KiJKb4TpRw/jZ8uRSpwHZsby2sEfjHbA8M4mg0jUKH9VLQHBQU1Ecyeu1l4npxfFB12Xaw5rGDnZ6Qe6+3/da7M0+7oinYdllTFAW+UOBdnCHsOmi5npcrYDhEkVpPunf6NqqQ1doEPfRfWoQIifETjq/suUPlu2OWSi56vn97s9woalqP/2/sEbqt2K5BnuE/8MVb6wAPbUtKcVqnbu8VbBEarwLtYnARPM=
+    global:
+        secure: F96fm6XY4NvyTW+aGztJeq5PQLjzRllYIpJ0dA9R/FgMBc0eqgXO0Thg/u1rvqfPJNxn+ZkDg19QPz9EIUi381jO9M37tsJrUclF5DK/516LJhZFmKPDTKoN30TWDvx2W16DFW9en2FBwZbPJwh9/Zh/QXABpLY5SAoLPNRGv7QbYcrRoXej8mA2IbBEg9qpgh3E3zDr63AvpznnXBaiOL0ohpZ1mLFzrOYlmza9WUhFp5UG05PBuSypdGwILEeTNOhSnb5IKKSjBAymqa63lPsFfQGJbNY4MqlRssMv4ib6uc/Zne1CVgFqkU13k+jXV1vnGkWy+s4sa7kiJt7/GgJad5y29Wwf8F78fiehe5+d0KKriBPtaB15oE/lwiItWrOIrlxKvbbUd4ytJALL2dKUsM/X3jH22s5ruD0iKOgJ1NGf2AZ9sAJFwKejB4z7gxSOpqcAbdJUp/ZEGlKf8g6yGd2k/lTXdSWgy1evHDzmkcrpmdJKXkVgnTerBNSaXJg5HY/9G3+MmHzm++D3ut55oEz5+ZL//o5accngbdqBJRoiEBYJPk2nAuc5CEAdj4PgCYqIGN6VhPZcl/YGZpiaCIiGRg5pxveFmboEepYMQUjp5vlmWR0h1GTyYMG35g/GLrsYqTC9c8JEfn9DZcIyo9uWWj5fTH4Kr+VQ3/o=
