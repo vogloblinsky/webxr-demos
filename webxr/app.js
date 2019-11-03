@@ -13,56 +13,27 @@
  * limitations under the License.
  */
 
+// Model animation variables
 const clock = new THREE.Clock();
 let mixer = null; // updated in utils.js
 
+// Model selection variables
 let selectedModel;
-
 const modelScale = 0.25;
 
+// public API for debugging
 let clearScene = () => {
     window.app.clearScene();
 };
 
 // Create an audio context
-const audioCtx = new AudioContext();
+const audioContext = new AudioContext();
+let meter = null;
+let mediaStreamSource = null;
 
+// Model playback rate for applause sync with animation
 let ModelPlaybackRate = 0;
-
-let listenMicrophone = false;
-
-let data = new Uint8Array(2);
-const analyserNode = new AnalyserNode(audioCtx, {
-    fftSize: 256, // default value : 2048
-    maxDecibels: -10, // default value : -30
-    minDecibels: -90, // default value : -100
-    smoothingTimeConstant: 0.9 // default value : 0.8
-});
-
-function getAnalyserData() {
-    requestAnimationFrame(getAnalyserData);
-    analyserNode.getByteFrequencyData(data);
-    console.log(data[0]);
-    let currentLevel = data[0];
-    if (currentLevel > 75) {
-        ModelPlaybackRate = 1;
-    } else if (currentLevel >= 50 && currentLevel <= 75) {
-        ModelPlaybackRate = 0.5;
-    } else if (currentLevel >= 25 && currentLevel < 50) {
-        ModelPlaybackRate = 0.25;
-    } else {
-        ModelPlaybackRate = 0;
-    }
-}
-
-function getStreamData() {
-    return navigator.mediaDevices
-        .getUserMedia({ audio: true, video: false })
-        .then(stream => audioCtx.createMediaStreamSource(stream))
-        .then(source => {
-            source.connect(analyserNode);
-        });
-}
+let currentMicrophoneLevel = 0;
 
 /**
  * Container class to manage connecting to the WebXR Device API
@@ -145,34 +116,71 @@ class App {
         // canvas element.
         const outputCanvas = document.createElement('canvas');
 
-        // sound demo purpose
-        // start audio analysis
-        audioCtx.resume();
-        getStreamData().then(getAnalyserData);
-
-        // requestSession with { optionalFeatures: ['dom-overlay-for-handheld-ar'] }, breaks XRInputs
-
-        // Request a session
-        navigator.xr
-            .requestSession('immersive-ar')
-            .then(xrSession => {
-                this.session = xrSession;
-                console.log('requestSession immersive-ar ok');
-                xrSession.addEventListener(
-                    'end',
-                    this.onXRSessionEnded.bind(this)
+        navigator.getUserMedia(
+            {
+                audio: true
+            },
+            stream => {
+                // Create an AudioNode from the stream.
+                mediaStreamSource = audioContext.createMediaStreamSource(
+                    stream
                 );
-                // If `requestSession` is successful, add the canvas to the
-                // DOM since we know it will now be used.
-                document.body.appendChild(outputCanvas);
-                // Do necessary session setup here.
-                this.onSessionStarted();
-            })
-            .catch(error => {
-                // "immersive-ar" sessions are not supported
-                console.warn('requestSession immersive-ar error: ', error);
-                this.onNoXRDevice();
-            });
+
+                // sound demo purpose
+                // start audio analysis
+                audioContext.resume();
+
+                // Create a new volume meter and connect it.
+                meter = createAudioMeter(audioContext);
+                mediaStreamSource.connect(meter);
+
+                // requestSession with { optionalFeatures: ['dom-overlay-for-handheld-ar'] }, breaks XRInputs
+                // Request a session
+                navigator.xr
+                    .requestSession('immersive-ar')
+                    .then(xrSession => {
+                        this.session = xrSession;
+                        console.log('requestSession immersive-ar ok');
+                        xrSession.addEventListener(
+                            'end',
+                            this.onXRSessionEnded.bind(this)
+                        );
+                        // If `requestSession` is successful, add the canvas to the
+                        // DOM since we know it will now be used.
+                        document.body.appendChild(outputCanvas);
+                        // Do necessary session setup here.
+                        this.onSessionStarted();
+                        this.analyseMicrophoneLevel();
+                    })
+                    .catch(error => {
+                        // "immersive-ar" sessions are not supported
+                        console.warn(
+                            'requestSession immersive-ar error: ',
+                            error
+                        );
+                        this.onNoXRDevice();
+                    });
+            },
+            e => {
+                alert('getUserMedia threw exception :' + e);
+            }
+        );
+    }
+
+    analyseMicrophoneLevel() {
+        this.intervalMicLevelId = setInterval(() => {
+            currentMicrophoneLevel = meter.volume;
+            if (currentMicrophoneLevel > 0.0075) {
+                ModelPlaybackRate = 1;
+            } else if (
+                currentMicrophoneLevel >= 0.0025 &&
+                currentMicrophoneLevel <= 0.0075
+            ) {
+                ModelPlaybackRate = 0.5;
+            } else {
+                ModelPlaybackRate = 0;
+            }
+        }, 500);
     }
 
     /**
@@ -191,8 +199,11 @@ class App {
             this.renderer.vr.setSession(null);
             this.stabilized = false;
         }
-        if (audioCtx) {
-            audioCtx.close();
+        if (audioContext) {
+            audioContext.suspend();
+        }
+        if (this.intervalMicLevelId) {
+            clearInterval(this.intervalMicLevelId);
         }
     }
 
@@ -294,7 +305,9 @@ class App {
 
         if (mixer) {
             let delta = clock.getDelta();
+
             mixer.timeScale = ModelPlaybackRate; // very slow : 0.1; slow : 0.5; normal : 1;
+
             mixer.update(delta);
         }
 

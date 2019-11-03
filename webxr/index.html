@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <!--
 /*
  * Copyright 2017 Google Inc. All Rights Reserved.
@@ -16,68 +16,87 @@
  */
 -->
 <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Augmented reality application with the WebXR Device API</title>
+        <link rel="stylesheet" type="text/css" href="./app.css" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="../common/css/material.min.css"
+        />
+        <link rel="stylesheet" type="text/css" href="../common/css/main.css" />
+    </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Augmented reality application with the WebXR Device API</title>
-  <link rel="stylesheet" type="text/css" href="./app.css" />
-  <link rel="stylesheet" type="text/css" href="../common/css/material.min.css" />
-  <link rel="stylesheet" type="text/css" href="../common/css/main.css">
-</head>
-
-<body>
-  <div id="enter-ar-info" class="demo-card mdl-card mdl-shadow--4dp">
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">Augmented Reality with the WebXR Device API</h2>
-    </div>
-    <div class="mdl-card__supporting-text">
-      This is an experiment using augmented reality features with the WebXR Device API. Upon entering AR, you will be surrounded
-      by a world of cubes. Learn more about these features from the
-      <a href="https://codelabs.developers.google.com/codelabs/ar-with-webxr">Building an augmented reality application with the WebXR Device API</a> Code Lab.
-    </div>
-    <div class="mdl-card__actions mdl-card--border">
-      <a id="enter-ar" class="mdl-button mdl-button--raised mdl-button--accent">
-        Start augmented reality
-      </a>
-    </div>
-  </div>
-  <div id="unsupported-info" class="demo-card mdl-card mdl-shadow--4dp">
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">Unsupported browser</h2>
-    </div>
-    <div class="mdl-card__supporting-text">
-      Your browser does not support AR features with WebXR. Learn more about these features from the
-      <a href="https://codelabs.developers.google.com/codelabs/ar-with-webxr">Building an augmented reality application with the WebXR Device API</a> Code Lab.
-    </div>
-  </div>
-  <div id="stabilization"></div>
-  <div id="info">
-    <span>
-      <a target="_blank">Model</a> by
-      <a></a> /
-      <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY</a>
-    </span>
-  </div>
-  <div class="modal hide">
-    <div class="background"></div>
-    <div class="container">
-      <h3>COMMENCER</h3>
-      <div class="products"></div>
-    </div>
-  </div>
-  <footer>
-    <div>
-      <ion-icon name="add-circle" class="add-button"></ion-icon>
-    </div>
-  </footer>
-  <script src="../common/js/libs/ionicons.js"></script>
-  <script src="../common/js/libs/three.js-r109/three.min.js"></script>
-  <script src="../common/js/libs/three.js-r109/GLTFLoader.js"></script>
-  <script src="../common/js/utils.js"></script>
-  <script src="../common/js/main.js"></script>
-  <script src="app.js"></script>
-</body>
-
+    <body>
+        <div id="enter-ar-info" class="demo-card mdl-card mdl-shadow--4dp">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">
+                    Augmented Reality with the WebXR Device API
+                </h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                This is an experiment using augmented reality features with the
+                WebXR Device API. Upon entering AR, you will be surrounded by a
+                world of cubes. Learn more about these features from the
+                <a
+                    href="https://codelabs.developers.google.com/codelabs/ar-with-webxr"
+                    >Building an augmented reality application with the WebXR
+                    Device API</a
+                >
+                Code Lab.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a
+                    id="enter-ar"
+                    class="mdl-button mdl-button--raised mdl-button--accent"
+                >
+                    Start augmented reality
+                </a>
+            </div>
+        </div>
+        <div id="unsupported-info" class="demo-card mdl-card mdl-shadow--4dp">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Unsupported browser</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Your browser does not support AR features with WebXR. Learn more
+                about these features from the
+                <a
+                    href="https://codelabs.developers.google.com/codelabs/ar-with-webxr"
+                    >Building an augmented reality application with the WebXR
+                    Device API</a
+                >
+                Code Lab.
+            </div>
+        </div>
+        <div id="stabilization"></div>
+        <div id="info">
+            <span>
+                <a target="_blank">Model</a> by <a></a> /
+                <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY</a>
+            </span>
+        </div>
+        <div class="modal hide">
+            <div class="background"></div>
+            <div class="container">
+                <h3>COMMENCER</h3>
+                <div class="products"></div>
+            </div>
+        </div>
+        <footer>
+            <div>
+                <ion-icon name="add-circle" class="add-button"></ion-icon>
+            </div>
+        </footer>
+        <script src="../common/js/libs/ionicons.js"></script>
+        <script src="../common/js/libs/volume-meter.js"></script>
+        <script src="../common/js/libs/three.js-r109/three.min.js"></script>
+        <script src="../common/js/libs/three.js-r109/GLTFLoader.js"></script>
+        <script src="../common/js/utils.js"></script>
+        <script src="../common/js/main.js"></script>
+        <script src="app.js"></script>
+    </body>
 </html>
