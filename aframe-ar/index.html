@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title>aframe-ar</title>
+    <meta name="description" content="aframe-ar">
+    <script src="../common/js/libs/aframe.min.js"></script>
+    <script src="../common/js/libs/aframe-extras.min.js"></script>
+    <script src="../common/js/libs/three.ar.min.js"></script>
+    <script src="../common/js/libs/aframe-ar.min.js"></script>
+    <script src="./js/grid-shader.js"></script>
+    <!-- Include polygon component. -->
+    <script src="./js/polygon.js"></script>
+    <!-- Include planes handling example code. -->
+    <script src="./js/planes-example.js"></script>
+
+    <!-- Prevent touch causing flicker on iOS. -->
+    <style>
+        * {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+    </style>
+    <link rel="stylesheet" href="../common/css/main.css">
+</head>
+
+<body>
+    <!-- Our scene uses the ar component. -->
+    <a-scene ar>
+        <a-camera>
+            <!-- A hit from AR, rather than A-Frame objects, hits this entity. -->
+            <a-entity id="ar-world"></a-entity>
+
+            <!-- Declare a cursor, and what objects its raycaster hit (including AR). -->
+            <!-- NOTE: ar-raycaster VRHit uses a "tolerance" fudge factor, so imprecise -->
+            <a-entity cursor="fuse:false" track-cursor-intersection raycaster="objects:.plane;recursive:false" ar-raycaster="el:#ar-world"></a-entity>
+
+            <!-- Separate the cursor appearance.-->
+            <a-entity position="0 0 -0.1" scale="0.001 0.001 0.001" geometry="primitive: ring; radiusInner: 0.8; radiusOuter: 1" material="color: yellow; shader: flat; transparent:true"></a-entity>
+        </a-camera>
+    </a-scene>
+
+    <footer>
+        <div>
+            <ion-icon name="add-circle" class="add-button"></ion-icon>
+        </div>
+    </footer>
+
+    <div id="stabilization"></div>
+    <div id="info">
+        <span>
+            <a target="_blank">Model</a> by
+            <a></a> /
+            <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY</a>
+        </span>
+    </div>
+
+    <div class="modal hide">
+        <div class="background"></div>
+        <div class="container">
+            <h3>COMMENCER</h3>
+            <div class="products"></div>
+        </div>
+    </div>
+
+    <script src="../common/js/libs/ionicons.js"></script>
+    <script src="../common/js/main.js"></script>
+    <script src="./js/app.js"></script>
+
+    <script>
+        var sc = document.querySelector('a-scene');
+        
+        function addEventListeners() {
+            addPlaneListeners();
+        }
+
+        function onSceneLoaded() {
+            var tempPos = new THREE.Vector3();
+            var tempQuat = new THREE.Quaternion();
+            var tempScale = new THREE.Vector3();
+            var tempEuler = new THREE.Euler(0, 0, 0, 'YXZ');
+            var tempMat4 = new THREE.Matrix4();
+
+            document.querySelector('a-scene').addEventListener('touchstart', function (e) {
+                var cursor = sc.querySelector('[ar-raycaster]').components.cursor;
+                if (cursor.intersection && selectedModel) {
+                    let model = document.createElement('a-gltf-model');
+                    model.setAttribute('src', `#${selectedModel.id}`);
+                    model.setAttribute('position', {
+                        x: cursor.intersection.point.x,
+                        y: cursor.intersection.point.y - 1,
+                        z: cursor.intersection.point.z
+                    });
+                    if (typeof selectedModel.animated !== 'undefined') {
+                        model.setAttribute('animation-mixer', null);
+                    }
+                    model.setAttribute('scale', `${selectedModel.scaleAframear} ${selectedModel.scaleAframear} ${selectedModel.scaleAframear}`);
+                    sc.appendChild(model);
+                    hidePlanes = true;
+                }
+            });
+
+            addEventListeners();
+        }
+
+        if (sc.hasLoaded) { onSceneLoaded(); }
+        else { sc.addEventListener('loaded', onSceneLoaded); }
+    </script>
+</body>
+
+</html>

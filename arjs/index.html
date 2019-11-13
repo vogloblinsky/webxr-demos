@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+
+<head>
+    <script src="../common/js/libs/aframe.min.js"></script>
+    <script src="../common/js/libs/aframe-extras.min.js"></script>
+    <script src="../common/js/libs/aframe-artoolkit.js"></script>
+
+    <link rel="stylesheet" href="../common/css/main.css">
+</head>
+
+<body style="margin : 0px; overflow: hidden;">
+    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false;' vr-mode-ui="enabled: false">
+        <a-marker-camera preset='hiro'></a-marker-camera>
+    </a-scene>
+
+    <footer>
+        <div>
+            <ion-icon name="add-circle" class="add-button"></ion-icon>
+        </div>
+    </footer>
+
+    <div id="info">
+        <span>
+            <a target="_blank">Model</a> by
+            <a></a> /
+            <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY</a>
+        </span>
+    </div>
+
+    <div class="modal hide">
+        <div class="background"></div>
+        <div class="container">
+            <h3>COMMENCER</h3>
+            <div class="products"></div>
+        </div>
+    </div>
+
+    <script src="../common/js/libs/ionicons.js"></script>
+    <script src="../common/js/main.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>
