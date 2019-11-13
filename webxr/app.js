@@ -26,11 +26,6 @@ let clearScene = () => {
     window.app.clearScene();
 };
 
-// Create an audio context
-const audioContext = new AudioContext();
-let meter = null;
-let mediaStreamSource = null;
-
 // Model playback rate for applause sync with animation
 let ModelPlaybackRate = 0;
 let currentMicrophoneLevel = 0;
@@ -116,71 +111,28 @@ class App {
         // canvas element.
         const outputCanvas = document.createElement('canvas');
 
-        navigator.getUserMedia(
-            {
-                audio: true
-            },
-            stream => {
-                // Create an AudioNode from the stream.
-                mediaStreamSource = audioContext.createMediaStreamSource(
-                    stream
+        // requestSession with { optionalFeatures: ['dom-overlay-for-handheld-ar'] }, breaks XRInputs
+        // Request a session
+        navigator.xr
+            .requestSession('immersive-ar')
+            .then(xrSession => {
+                this.session = xrSession;
+                console.log('requestSession immersive-ar ok');
+                xrSession.addEventListener(
+                    'end',
+                    this.onXRSessionEnded.bind(this)
                 );
-
-                // sound demo purpose
-                // start audio analysis
-                audioContext.resume();
-
-                // Create a new volume meter and connect it.
-                meter = createAudioMeter(audioContext);
-                mediaStreamSource.connect(meter);
-
-                // requestSession with { optionalFeatures: ['dom-overlay-for-handheld-ar'] }, breaks XRInputs
-                // Request a session
-                navigator.xr
-                    .requestSession('immersive-ar')
-                    .then(xrSession => {
-                        this.session = xrSession;
-                        console.log('requestSession immersive-ar ok');
-                        xrSession.addEventListener(
-                            'end',
-                            this.onXRSessionEnded.bind(this)
-                        );
-                        // If `requestSession` is successful, add the canvas to the
-                        // DOM since we know it will now be used.
-                        document.body.appendChild(outputCanvas);
-                        // Do necessary session setup here.
-                        this.onSessionStarted();
-                        this.analyseMicrophoneLevel();
-                    })
-                    .catch(error => {
-                        // "immersive-ar" sessions are not supported
-                        console.warn(
-                            'requestSession immersive-ar error: ',
-                            error
-                        );
-                        this.onNoXRDevice();
-                    });
-            },
-            e => {
-                alert('getUserMedia threw exception :' + e);
-            }
-        );
-    }
-
-    analyseMicrophoneLevel() {
-        this.intervalMicLevelId = setInterval(() => {
-            currentMicrophoneLevel = meter.volume;
-            if (currentMicrophoneLevel > 0.0075) {
-                ModelPlaybackRate = 1;
-            } else if (
-                currentMicrophoneLevel >= 0.0025 &&
-                currentMicrophoneLevel <= 0.0075
-            ) {
-                ModelPlaybackRate = 0.5;
-            } else {
-                ModelPlaybackRate = 0;
-            }
-        }, 500);
+                // If `requestSession` is successful, add the canvas to the
+                // DOM since we know it will now be used.
+                document.body.appendChild(outputCanvas);
+                // Do necessary session setup here.
+                this.onSessionStarted();
+            })
+            .catch(error => {
+                // "immersive-ar" sessions are not supported
+                console.warn('requestSession immersive-ar error: ', error);
+                this.onNoXRDevice();
+            });
     }
 
     /**
@@ -198,12 +150,6 @@ class App {
         if (this.renderer) {
             this.renderer.vr.setSession(null);
             this.stabilized = false;
-        }
-        if (audioContext) {
-            audioContext.suspend();
-        }
-        if (this.intervalMicLevelId) {
-            clearInterval(this.intervalMicLevelId);
         }
     }
 
@@ -305,9 +251,6 @@ class App {
 
         if (mixer) {
             let delta = clock.getDelta();
-
-            mixer.timeScale = ModelPlaybackRate; // very slow : 0.1; slow : 0.5; normal : 1;
-
             mixer.update(delta);
         }
 
