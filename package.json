@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/vogloblinsky/webxr-demos#readme",
   "devDependencies": {
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "fs-extra": "^6.0.1",
     "http-server": "^0.11.1",
     "spdy": "^3.4.7"
